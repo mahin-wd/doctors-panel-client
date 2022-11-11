@@ -29,8 +29,8 @@ const OurServices = () => {
 
     return (
 
-        <div className='mt-20'>
-            <p className="text-2xl text-secondary font-bold">Our Services</p>
+        <div className='mt-20 mx-5'>
+            <p className="text-2xl text-secondary font-bold uppercase">Our Services</p>
             <h3 className="text-4xl my-3">Services We Provide</h3>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-10'>
                 {
