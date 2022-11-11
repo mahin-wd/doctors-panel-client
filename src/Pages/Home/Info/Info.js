@@ -5,7 +5,9 @@ import marker from '../../../assets/icons/marker.svg'
 
 const Info = () => {
     return (
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
+
+        //* HardCoded Card
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mx-5'>
             <div className='bg-gradient-to-r from-primary to-secondary border-none text-white flex items-center w-full py-10 px-5 rounded-xl'>
                 <img src={clock} alt="" />
                 <div className='text-start ml-3'>
