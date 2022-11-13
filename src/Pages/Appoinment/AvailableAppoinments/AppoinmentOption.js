@@ -1,7 +1,7 @@
 import React from 'react';
 import PrimaryBtn from '../../../Components/PrimaryBtn/PrimaryBtn';
 
-const AppoinmentOption = ({ option }) => {
+const AppoinmentOption = ({ option, setTreatment }) => {
     const { name, slots } = option;
     return (
         <div className="card w-96 shadow-xl">
@@ -9,7 +9,9 @@ const AppoinmentOption = ({ option }) => {
                 <h2 className="text-2xl text-secondary font-semibold">{name}</h2>
                 <p>{slots.length > 0 ? slots[0] : "No available appoinments"}</p>
                 <div className="card-actions justify-center mt-5">
-                    <PrimaryBtn className=" uppercase">Book Appoinment</PrimaryBtn>
+                    <PrimaryBtn className=" uppercase">
+                        <label onClick={() => setTreatment(option)} htmlFor="booking-modal">Book Appoinment</label>
+                    </PrimaryBtn>
                 </div>
             </div>
         </div>
