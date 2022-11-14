@@ -1,7 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns';
 
-const BookingModal = ({ treatment, selectDate }) => {
+const BookingModal = ({ treatment, setTreatment, selectDate }) => {
     const { name, slots } = treatment;
     const date = format(selectDate, "PP");
 
@@ -14,14 +14,16 @@ const BookingModal = ({ treatment, selectDate }) => {
         const phone = form.phone.value;
 
         const userForm = {
-            name,
-            date,
+            Patient: name,
+            Treatment: treatment.name,
+            appoinmentDate: date,
             slot,
             email,
             phone
         };
         console.log(userForm);
         form.reset();
+        setTreatment(null);
     }
 
     return (
@@ -37,7 +39,7 @@ const BookingModal = ({ treatment, selectDate }) => {
                         <input type="text" readOnly value={date} className="input input-bordered w-full" />
                         <select name="slot" className="select select-bordered w-full">
                             {
-                                slots.map(slot => <option>{slot}</option>)
+                                slots.map((slot, i) => <option value={slot} key={i}>{slot}</option>)
                             }
                         </select>
                         <input name="name" type="text" placeholder="Full Name" className="input input-bordered w-full" />
