@@ -1,28 +1,31 @@
 import React, { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Context/AuthProvider';
+import { useForm } from 'react-hook-form';
 
 const Login = () => {
     const [loginError, setLoginError] = useState('');
     const {signIn} = useContext(AuthContext)
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
-    const handleLogin = e => {
-        e.preventDefault()
-        const form = e.target;
-        const email = form.email.value;
-        const password = form.password.value;
+
+    const { register, handleSubmit, formState: { errors } } = useForm();
+
+    const login = data => {
+        console.log(data);
 
         setLoginError('')
-        signIn(email, password)
+        signIn(data.email, data.password)
         .then(result => {
             const user = result.user;
             console.log(user)
+            navigate(from, {replace: true});
         })
         .catch(err => {
             setLoginError(err.message);
         });
-        navigate('/')
     }
 
     return (
@@ -32,24 +35,25 @@ const Login = () => {
                     <div className="card-body">
                         <h3 className="text-2xl">Login</h3>
 
-                        <form onSubmit={handleLogin}>
+                        <form onSubmit={handleSubmit(login)}>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text text-accent">Email</span>
                                 </label>
-                                <input name="email" type="email" placeholder="email" className="input input-bordered border-gray-300" />
+                                <input type="email" placeholder="email" {...register("email", {required: "Email Address is required"})} className="input input-bordered border-gray-300" />
+                                {errors.email && <div className="error text-red-600">{errors.email.message}</div>}
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text text-accent">Password</span>
                                 </label>
-                                <input name="password" type="password" placeholder="password" className="input input-bordered border-gray-300" />
+                                <input type="password" placeholder="password" {...register("password", {required:"Password is required"})} className="input input-bordered border-gray-300" />
+                                {errors.password && <div className="error text-red-600">{errors.password.message}</div>}
                                 <label className="label">
-                                    <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                                 </label>
                             </div>
                             <div className="form-control mt-6">
-                                <button className="btn btn-accent">Login</button>
+                                <input className='btn btn-accent' type="submit" value="Login" />
                             </div>
                             {
                                 loginError && <p className='text-red-500'>{loginError}</p>

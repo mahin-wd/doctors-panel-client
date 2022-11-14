@@ -6,8 +6,8 @@ const Navbar = () => {
     const { user, signOutUser } = useContext(AuthContext);
     const handleSignOut = () => {
         signOutUser()
-        .then(() => {})
-        .catch(err => console.error(err));
+            .then(() => { })
+            .catch(err => console.error(err));
     }
 
     const menuItems =
@@ -17,9 +17,14 @@ const Navbar = () => {
             <li><Link to="/appoinment">Appoinment</Link></li>
             <li><Link to="/reviews">Reviews</Link></li>
             <li><Link to="/contace">Contact Up</Link></li>
+            <li><Link to="/dashboard">Dashboard</Link></li>
             <li>
                 {
-                    user?.uid ? <p onClick={handleSignOut}>Log Out</p> : <Link to="/login">Login</Link>
+                    user?.uid ? 
+                    <>
+                        <p onClick={handleSignOut}>Log Out</p>
+                    </>
+                        : <Link to="/login">Login</Link>
                 }
             </li>
         </>

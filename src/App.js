@@ -6,6 +6,7 @@ function App() {
   return (
     <div className="App max-w-[1440px] mx-auto text-accent">
       <RouterProvider  router={router}/>
+      
     </div>
   );
 }

@@ -1,59 +1,63 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../Context/AuthProvider';
+import { useForm } from 'react-hook-form';
 
 const Signup = () => {
-    const {createUser} = useContext(AuthContext);
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const {createUser, updateUser} = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const handleSignup = e => {
-        e.preventDefault()
-        const form = e.target;
-        const name = form.name.value;
-        const email = form.email.value;
-        const password = form.password.value;
-
-        
-        createUser(email, password)
+    const signUp = data => {
+        createUser(data.email, data.password)
         .then(result => {
             const user = result.user;
-            console.log(user)
+
+            const userInfo = {
+                displayName: data.name
+            }
+            updateUser(userInfo)
+            .then(() => {})
+            .catch(err => console.error(err));
+            console.log(user);
+            navigate('/')
         })
         .catch(err => console.error(err));
-        form.reset();
-        navigate('/login');
+        
+        
     }
 
     return (
         <div className="hero min-h-screen">
             <div className="hero-content w-[380px] h-[300px]">
                 <div className="card w-full shadow-2xl bg-base-100">
-                    <form onSubmit={handleSignup}>
+                    <form onSubmit={handleSubmit(signUp)}>
                         <div className="card-body">
                             <h3 className="text-2xl">Signup</h3>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text text-accent">Name</span>
                                 </label>
-                                <input name="name" type="text" placeholder="name" className="input input-bordered border-gray-300" />
+                                <input {...register("name", {required: true})} type="text" placeholder="name" className="input input-bordered border-gray-300" />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text text-accent">Email</span>
                                 </label>
-                                <input name="email" type="email" placeholder="email" className="input input-bordered border-gray-300" />
+                                <input {...register("email", {required: "Email Address is required"})} type="email" placeholder="email" className="input input-bordered border-gray-300" />
+                                {errors.email && <p className='text-red-600'>{errors.email?.message}</p>}
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text text-accent">Password</span>
                                 </label>
-                                <input name="password" type="password" placeholder="password" className="input input-bordered border-gray-300" />
+                                <input {...register("password", {required: "Password is required"})} type="password" placeholder="password" className="input input-bordered border-gray-300" />
+                                {errors.password && <p className='text-red-600'>{errors.password?.message}</p>}
                                 <label className="label">
-                                    <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                                 </label>
                             </div>
                             <div className="form-control mt-6">
-                                <button className="btn btn-accent">Login</button>
+                            <input className='btn btn-accent' type="submit" value="Sign Up" />
                             </div>
                             <div>
                                 <p className=' text-sm'>Already Have an Account??
