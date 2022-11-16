@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../Context/AuthProvider';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 const Signup = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -19,7 +20,7 @@ const Signup = () => {
             updateUser(userInfo)
             .then(() => {})
             .catch(err => console.error(err));
-            console.log(user);
+            toast.success('Signed Up Successful')
             navigate('/')
         })
         .catch(err => console.error(err));
