@@ -21,11 +21,24 @@ const Signup = () => {
             .then(() => {})
             .catch(err => console.error(err));
             toast.success('Signed Up Successful')
-            navigate('/')
+            saveUser(data.name, data.email)
+            
         })
         .catch(err => console.error(err));
-        
-        
+    }
+
+    const saveUser = (name, email) => {
+        const user = {name, email};
+        fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+        .then(res => res.json())
+        .catch(err => console.error(err));
+        navigate('/')
     }
 
     return (
