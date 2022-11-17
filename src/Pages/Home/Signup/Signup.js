@@ -37,8 +37,21 @@ const Signup = () => {
             body: JSON.stringify(user)
         })
         .then(res => res.json())
-        .catch(err => console.error(err));
-        navigate('/')
+        .then(data => {
+            setJWT(email);
+        })
+        
+    }
+
+    const setJWT = (email) => {
+        fetch(`http://localhost:5000/jwt?email=${email}`)
+        .then(res => res.json())
+        .then(data => {
+            if(data.accessToken) {
+                localStorage.setItem('accessToken', data.accessToken);
+                navigate('/')
+            }
+        })
     }
 
     return (
