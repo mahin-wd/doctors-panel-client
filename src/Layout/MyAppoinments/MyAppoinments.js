@@ -5,7 +5,7 @@ import { AuthContext } from '../../Context/AuthProvider';
 const MyAppoinments = () => {
     const { user } = useContext(AuthContext);
     const url = `http://localhost:5000/bookings?email=${user?.email}`
-    const { data: bookings = [] } = useQuery({
+    const { data: bookings = [], isLoading } = useQuery({
         queryKey: ['bookings', user?.email],
         queryFn: async () => {
             const res = await fetch(url, {
@@ -14,6 +14,7 @@ const MyAppoinments = () => {
                 }, 
             });
             const data = await res.json();
+            isLoading(true)
             return data;
         }
     })
